@@ -1,3 +1,12 @@
+<script>
+    function checkSubmit(e){
+        if (e&&e.code==13){
+            document.forms.submit();
+        }
+    }
+    let data = $props();
+</script>
+
 <svelte:head>
     <title>Alien Encounters</title>
     <link rel="preconnect" href="https://font.googleapis.com">
@@ -10,10 +19,29 @@
 
     <div id="frame" class="crt">
         <img id="crt_overlay" src="/src/lib/images/crt_overlay.png" alt="test">
-        <p id="alienTXT" class="crt">Incoming transmission, please wait...</p>
-        <textarea id= "monitor" class="crt">All your base are belong to us</textarea>
+        <ul id="chat" class="crt">
+            {#each data.messages as messages (messages.id)}
+                <li>
+                    {messages.msg}
+                </li>
+            {/each}
+        </ul>
+        <!-- <form id= "monitor" class="crt">All your base are belong to us</form> -->
+
+        <!-- <form>
+            <input type="text" id="monitor" class="crt" name="userInput">
+        </form> -->
         
-        
+        <form method="POST">
+            <label id="msgLbl" class="crt">Write a message:
+            <input
+            name="msg" 
+            id="monitor" 
+            class="crt" 
+            autocomplete="off"
+            />
+            </label>
+        </form>
         
     </div>
 </main>
@@ -38,6 +66,12 @@
         /* overflow: hidden; */
     }
 
+    #msgLbl{
+        font-size: 2rem;
+        height:auto;
+        margin-top: -20%;
+    }
+    
     #crt_overlay {
         width: 80rem;
         height: 55rem;
@@ -61,9 +95,10 @@
         font-weight: 400;
         font-style: normal;
         z-index: 1;
+        color: rgba(128, 255, 0, 0.75);
     }
 
-    #alienTXT {
+    #chat {
         text-align: center;
         font-size: 4rem;
         position: absolute;
