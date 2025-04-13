@@ -1,3 +1,5 @@
+import { chatMSG } from '$lib/stores/chatStore.js';
+
 const db = new Map()
 
 export function getMessages(userid) {
@@ -18,14 +20,15 @@ export function sendMessage(gameID,msg){
     // });
     console.log(gameID,msg)
 
-    chatMSG.push(msg)
+    // chatMSG.push(msg)
+    chatMSG.update(n => [...n, msg]);
 
    return askAlien(gameID,msg)
 
 
 }
 
-export let chatMSG = []
+// export let chatMSG = []
 
 function  askAlien(gameID,msg){
     const data = {
@@ -46,8 +49,10 @@ function  askAlien(gameID,msg){
             return res.json();
         })
         .then(data => {
-            chatMSG.push(data.response)
+            // chatMSG.push(data.response)
+            chatMSG.update(n => [...n, data.response]);
             console.log(data.response)
+            
             return data;
         })
     

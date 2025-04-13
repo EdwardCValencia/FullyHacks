@@ -1,5 +1,7 @@
 import * as db from '$lib/server/database.js';
-import { invalidateAll } from '$app/navigation';
+import { invalidateAll, invalidate } from '$app/navigation';
+import { get } from 'svelte/store'; // Import the 'get' function
+import { chatMSG } from '$lib/stores/chatStore.js'; // Import the store
 
 export async function load({ cookies }) {
 	// let id = cookies.get('userid');
@@ -39,9 +41,10 @@ export async function load({ cookies }) {
     }
     
     // console.log(db.getMessages(id));
-    console.log(db.chatMSG)
+    // console.log(db.chatMSG)
+    console.log('ChatMSG from store in load:', get(chatMSG));
 	return {
-		messages: db.chatMSG,
+		messages: get(chatMSG),
         gameID: gameData,
 	};
 }

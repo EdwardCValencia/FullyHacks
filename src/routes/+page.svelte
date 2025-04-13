@@ -1,13 +1,24 @@
 <script>
-    function checkSubmit(e){
-        if (e&&e.code==13){
-            document.forms.submit();
+    function checkSubmit(e) {
+        if (e && e.key === 'Enter') {
+            console.log('Enter key pressed!'); // Debugging line
+            e.preventDefault();
+            const form = e.target.form;
+            if (form) {
+                console.log('Form element found:', form); // Debugging line
+                form.requestSubmit();
+                console.log('Form submitted programmatically'); // Debugging line
+            } else {
+                console.log('Form element not found.'); // Debugging line
+            }
         }
     }
-    import { invalidate } from '$app/navigation';
+    import { invalidate, goto } from '$app/navigation';
     let data = $props();
-    console.log('data.messages in component:', data?.messages);
+    console.log('Entire data prop in component:', data);
 
+    import { chatMSG } from '$lib/stores/chatStore.js';
+   
     import { enhance } from '$app/forms'
     import {page} from '$app/stores'
     function handleSubmit(){
@@ -17,6 +28,7 @@
             }
         };
     }
+    const messages = $derived(chatMSG);
 </script>
 
 <svelte:head>
@@ -35,9 +47,8 @@
         
         <ul id="chat" class="crt">
             {#each data?.data?.messages as message}
-                <li>
+                <li class="crt">
                     {message}
-                    
                 </li>
             {/each}
         </ul>
@@ -54,6 +65,7 @@
             id="monitor" 
             class="crt" 
             autocomplete="off"
+            onkeydown={checkSubmit}
             />
             </label>
         </form>
@@ -66,6 +78,10 @@
         font-family: 'Courier New', Courier, monospace;
         font-weight: 600;
         font-size: large;
+    }
+    li{
+        list-style-type: none;
+        font-size: 2rem;
     }
     main {
         /* align-items: center; */
