@@ -4,7 +4,19 @@
             document.forms.submit();
         }
     }
+    import { invalidate } from '$app/navigation';
     let data = $props();
+    console.log('data.messages in component:', data?.messages);
+
+    import { enhance } from '$app/forms'
+    import {page} from '$app/stores'
+    function handleSubmit(){
+        return async ({ result }) => {
+            if (result.type === 'success') {
+                $page.data.invalidate(); // Invalidate the data after successful submission
+            }
+        };
+    }
 </script>
 
 <svelte:head>
@@ -19,10 +31,13 @@
 
     <div id="frame" class="crt">
         <img id="crt_overlay" src="/src/lib/images/crt_overlay.png" alt="test">
+       
+        
         <ul id="chat" class="crt">
-            {#each data.messages as messages (messages.id)}
+            {#each data?.data?.messages as message}
                 <li>
-                    {messages.msg}
+                    {message}
+                    
                 </li>
             {/each}
         </ul>
@@ -32,7 +47,7 @@
             <input type="text" id="monitor" class="crt" name="userInput">
         </form> -->
         
-        <form method="POST">
+        <form method="POST" use:enhance>
             <label id="msgLbl" class="crt">Write a message:
             <input
             name="msg" 
@@ -63,7 +78,7 @@
     div {
         position: relative;
         border-radius: 100px;
-        /* overflow: hidden; */
+        overflow: hidden;
     }
 
     #msgLbl{
