@@ -13,7 +13,7 @@ export function sendMessage(userid,msg){
     const messages = db.get(userid);
 
     messages.push({
-        id: crypto.randomUUID,
+        id: crypto.randomUUID(),
         msg
     });
 }
