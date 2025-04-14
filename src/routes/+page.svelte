@@ -59,7 +59,7 @@
         </form> -->
         
         <form method="POST" use:enhance>
-            <label id="msgLbl" class="crt">Write a message:
+            <label for="msg" id="msgLbl" class="crt">Write a message:
             <input
             name="msg" 
             id="monitor" 
@@ -82,6 +82,7 @@
     li{
         list-style-type: none;
         font-size: 2rem;
+        background: transparent;
     }
     main {
         /* align-items: center; */

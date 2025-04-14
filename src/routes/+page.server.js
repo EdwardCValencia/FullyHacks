@@ -50,11 +50,12 @@ export async function load({ cookies }) {
 }
 
 export const actions = {
-	default: async ({ cookies, request }) => {
+	default: async ({ request }) => {
 		const data = await request.formData();
-		await db.sendMessage(cookies.get('gameID'), data.get('msg'));
+        console.log(data);
+		// await db.sendMessage(cookies.get('gameID'), data.get('msg'));
         // throw invalidateAll()
-        return {success: true}
+        // return {success: true}
 	}
 };
 
